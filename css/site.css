@@ -1293,21 +1293,87 @@ a {
   margin: 0.85rem 0;
 }
 
-.draft-panel {
-  margin-top: 2rem;
+.submission-receipt {
+  margin-top: 1.5rem;
   background: var(--bg-subtle);
   border: 1px solid var(--copper-border);
   border-radius: var(--radius-md);
-  padding: 2rem;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  animation: receiptFadeIn 0.3s ease-out;
 }
-.draft-panel h2 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.35rem;
-  color: var(--text-main);
-  margin-bottom: 0.5rem;
+
+@keyframes receiptFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-.draft-panel label {
+
+.receipt-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--emerald);
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+}
+
+.receipt-summary-box {
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
   margin-top: 1rem;
+}
+
+.receipt-row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 600px) {
+  .receipt-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
+
+.receipt-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.receipt-value {
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+.spinner-icon {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #FFFFFF;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 .contact-aside-card {

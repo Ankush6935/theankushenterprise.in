@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -68,28 +68,34 @@
     <section class="section-wrap">
       <div class="contact-layout">
         <div class="form-card">
-          <span class="section-kicker">STRUCTURED ENQUIRY BUILDER</span>
-          <h2 class="section-title" style="font-size:1.65rem; margin-bottom:0.4rem;">Prepare a Technical Enquiry</h2>
+          <span class="section-kicker">INSTITUTIONAL ENQUIRY DESK</span>
+          <h2 class="section-title" style="font-size:1.65rem; margin-bottom:0.4rem;">Submit a Technical Enquiry</h2>
           <p style="color:var(--text-muted); font-size:0.92rem; margin-bottom:1.75rem;">
-            This utility formats your requirement into a structured procurement email draft on your device so you can review it before sending.
+            Submit your procurement specifications, BOQ review, or project requirements directly to our engineering desk at <strong>office@theankushenterprises.in</strong>.
           </p>
 
-          <form id="enquiry-form">
+          <form id="enquiry-form" action="https://formsubmit.co/office@theankushenterprises.in" method="POST">
+            <!-- FormSubmit Parameters -->
+            <input type="hidden" name="_subject" id="form-subject" value="New Technical Enquiry — Ankush Enterprises">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+
             <div class="form-grid">
               <label>Your Name <span>*</span>
-                <input name="name" autocomplete="name" required maxlength="120" placeholder="e.g. Wg Cdr / Director / Procurement Officer">
+                <input name="name" id="field-name" autocomplete="name" required maxlength="120" placeholder="e.g. Wg Cdr / Director / Procurement Officer">
               </label>
               <label>Organisation / Formation
-                <input name="organisation" autocomplete="organization" maxlength="180" placeholder="e.g. IAF / DRDO / Army Formation / PSU">
+                <input name="organisation" id="field-org" autocomplete="organization" maxlength="180" placeholder="e.g. IAF / DRDO / Army Formation / PSU">
               </label>
               <label>Official Email Address <span>*</span>
-                <input name="email" type="email" autocomplete="email" required maxlength="180" placeholder="name@organisation.gov.in">
+                <input name="email" id="field-email" type="email" autocomplete="email" required maxlength="180" placeholder="name@organisation.gov.in">
               </label>
               <label>Telephone / Extension
-                <input name="phone" type="tel" autocomplete="tel" maxlength="60" placeholder="+91 ...">
+                <input name="phone" id="field-phone" type="tel" autocomplete="tel" maxlength="60" placeholder="+91 ...">
               </label>
               <label>Enquiry Type
-                <select name="purpose">
+                <select name="purpose" id="field-purpose">
                   <option value="quotation">Project Quotation / BOQ Review</option>
                   <option value="credentials">Credentials &amp; Supplier Evaluation</option>
                   <option value="support">Service &amp; Lifecycle Support (SLA)</option>
@@ -110,10 +116,10 @@
                 </select>
               </label>
               <label>Project Location
-                <input name="location" maxlength="180" placeholder="e.g. Secunderabad / Hyderabad / Bidar / Visakhapatnam">
+                <input name="location" id="field-location" maxlength="180" placeholder="e.g. Secunderabad / Hyderabad / Bidar / Visakhapatnam">
               </label>
               <label>Target Timeline
-                <select name="timeline">
+                <select name="timeline" id="field-timeline">
                   <option>Planning / Budgetary Estimation</option>
                   <option>Immediate / Within 30 Days</option>
                   <option>1–3 Months (Active Tender)</option>
@@ -123,7 +129,7 @@
             </div>
 
             <label style="margin-bottom:0.75rem;">Requirement Summary <span>*</span>
-              <textarea name="requirement" required rows="5" maxlength="6000" placeholder="Specify application, target configuration, quantities, existing infrastructure, or tender reference..."></textarea>
+              <textarea name="requirement" id="field-requirement" required rows="5" maxlength="6000" placeholder="Specify application, target configuration, quantities, existing infrastructure, or tender reference..."></textarea>
             </label>
 
             <p class="field-note">
@@ -131,31 +137,72 @@
             </p>
 
             <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap; margin-top:1.25rem;">
-              <button class="btn btn-copper" type="submit">Review Email Draft ↗</button>
+              <button class="btn btn-copper" id="enquiry-submit-btn" type="submit">
+                <span id="btn-text">Submit Enquiry ↗</span>
+                <span id="btn-spinner" class="spinner-icon" hidden aria-hidden="true"></span>
+              </button>
               <span style="font-size:0.8rem; color:var(--text-muted);">Required fields are marked *. <a href="privacy.html" style="color:var(--copper);">Enquiry Privacy Policy</a></span>
             </div>
+            <p id="form-error-alert" role="alert" style="display:none; margin-top:1rem; padding:0.85rem 1.1rem; background:rgba(239, 68, 68, 0.08); border:1px solid rgba(239, 68, 68, 0.3); border-radius:var(--radius-sm); color:#dc2626; font-size:0.88rem; font-weight:500;"></p>
           </form>
 
-          <!-- Generated Draft Review Panel -->
-          <section id="draft-panel" class="draft-panel" hidden aria-labelledby="draft-title">
-            <h2 id="draft-title" tabindex="-1">Your Structured Enquiry Draft Is Ready</h2>
-            <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:1rem;">
-              <strong>Nothing has been transmitted automatically.</strong> Click below to open your default email client or copy the formatted text.
-            </p>
-            <label>To
-              <input id="draft-to" readonly value="office@theankushenterprises.in">
-            </label>
-            <label>Subject
-              <input id="draft-subject" readonly>
-            </label>
-            <label>Formatted Message
-              <textarea id="draft-body" readonly rows="10"></textarea>
-            </label>
-            <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:1.25rem;">
-              <a id="draft-open" class="btn btn-copper" href="mailto:office@theankushenterprises.in">Open Email App ↗</a>
-              <button class="btn btn-outline" type="button" id="copy-draft">Copy Draft to Clipboard</button>
+          <!-- Enquiry Submission Success Receipt Card -->
+          <section id="submission-receipt" class="submission-receipt" hidden aria-labelledby="receipt-title">
+            <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.75rem; margin-bottom:1rem;">
+              <span class="receipt-badge">✓ TRANSMISSION CONFIRMED // DESK LOGGED</span>
+              <span id="receipt-timestamp" style="font-family:'JetBrains Mono',monospace; font-size:0.78rem; color:var(--text-muted);"></span>
             </div>
-            <p id="draft-status" role="status" style="margin-top:0.75rem; font-size:0.85rem; color:var(--emerald); font-weight:600;"></p>
+            <h2 id="receipt-title" style="font-family:'Space Grotesk',sans-serif; font-size:1.45rem; color:var(--text-main); margin-bottom:0.5rem;" tabindex="-1">
+              Enquiry Successfully Transmitted
+            </h2>
+            <p style="font-size:0.92rem; color:var(--text-muted); line-height:1.6; margin-bottom:1.5rem;">
+              Thank you. Your requirement has been transmitted directly to our procurement and engineering desk (<strong style="color:var(--text-main);">office@theankushenterprises.in</strong>). A structured summary of your submission is detailed below:
+            </p>
+
+            <div class="receipt-summary-box">
+              <div class="receipt-row">
+                <span class="receipt-label">Enquirer</span>
+                <span class="receipt-value" id="receipt-name"></span>
+              </div>
+              <div class="receipt-row">
+                <span class="receipt-label">Organisation</span>
+                <span class="receipt-value" id="receipt-org"></span>
+              </div>
+              <div class="receipt-row">
+                <span class="receipt-label">Official Email</span>
+                <span class="receipt-value" id="receipt-email"></span>
+              </div>
+              <div class="receipt-row">
+                <span class="receipt-label">Contact Phone</span>
+                <span class="receipt-value" id="receipt-phone"></span>
+              </div>
+              <div class="receipt-row">
+                <span class="receipt-label">Enquiry Type</span>
+                <span class="receipt-value" id="receipt-purpose"></span>
+              </div>
+              <div class="receipt-row">
+                <span class="receipt-label">Division</span>
+                <span class="receipt-value" id="receipt-capability"></span>
+              </div>
+              <div class="receipt-row">
+                <span class="receipt-label">Location &amp; Timeline</span>
+                <span class="receipt-value" id="receipt-timeline"></span>
+              </div>
+              <div class="receipt-row" style="border-bottom:none;">
+                <span class="receipt-label">Requirement</span>
+                <span class="receipt-value" id="receipt-requirement" style="white-space:pre-wrap; font-family:'Plus Jakarta Sans',sans-serif;"></span>
+              </div>
+            </div>
+
+            <div style="margin-top:1.5rem; padding:1rem 1.25rem; background:rgba(217, 119, 6, 0.06); border-left:3px solid var(--copper); border-radius:var(--radius-sm);">
+              <p style="font-size:0.86rem; color:var(--text-main); margin:0; line-height:1.5;">
+                <strong>Next Steps:</strong> Our technical evaluations team reviews incoming institutional briefs within 24 business hours. If your requirement involves restricted drawings or urgent PAC/OEM documentation, please mention your reference when speaking with our direct desk.
+              </p>
+            </div>
+
+            <div style="margin-top:1.5rem; display:flex; gap:1rem; flex-wrap:wrap;">
+              <button class="btn btn-outline" type="button" id="submit-another-btn">Submit Another Requirement ↗</button>
+            </div>
           </section>
         </div>
 
