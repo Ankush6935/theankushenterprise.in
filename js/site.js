@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+﻿document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.querySelector('.menu-toggle');
   const nav = document.querySelector('#main-nav');
   function closeMenu() { toggle?.setAttribute('aria-expanded', 'false'); nav?.classList.remove('open'); }
@@ -31,14 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const body = `Dear Ankush Enterprises team,\n\n${data.get('requirement').trim()}\n\nEnquiry type: ${selected('purpose')}\nCapability: ${selected('capability')}\nTimeline: ${data.get('timeline')}\nLocation: ${data.get('location') || 'To be discussed'}\n\nName: ${data.get('name')}\nOrganisation: ${data.get('organisation') || 'Not specified'}\nEmail: ${data.get('email')}\nTelephone: ${data.get('phone') || 'Not specified'}\n\nPlease advise on the next steps.\n`;
     document.querySelector('#draft-subject').value = subject;
     document.querySelector('#draft-body').value = body;
-    document.querySelector('#draft-open').href = `mailto:office@ankushenterprises.in?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    document.querySelector('#draft-open').href = `mailto:office@theankushenterprises.in?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     document.querySelector('#draft-status').textContent = '';
     panel.hidden = false;
     document.querySelector('#draft-title').focus();
     panel.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'start'});
   });
   document.querySelector('#copy-draft').addEventListener('click', async () => {
-    const text = `To: office@ankushenterprises.in\nSubject: ${document.querySelector('#draft-subject').value}\n\n${document.querySelector('#draft-body').value}`;
+    const text = `To: office@theankushenterprises.in\nSubject: ${document.querySelector('#draft-subject').value}\n\n${document.querySelector('#draft-body').value}`;
     try { await navigator.clipboard.writeText(text); document.querySelector('#draft-status').textContent = 'Draft copied. Paste it into your email service and send when ready.'; }
     catch { document.querySelector('#draft-body').focus(); document.querySelector('#draft-body').select(); document.querySelector('#draft-status').textContent = 'Select and copy the draft above. Automatic clipboard access is unavailable.'; }
   });
